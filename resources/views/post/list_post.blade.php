@@ -26,7 +26,6 @@
                         <table id="datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th width="30px">No</th>
                                     <th>Kategori</th>
                                     <th>Judul</th>
                                     <th>Penulis</th>
@@ -59,7 +58,7 @@
                                     <select class="form-select" name="category_id">
                                         <option value="">--Pilih Kategori--</option>
                                         @foreach($categories as $row)
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                        <option :selected="data.category_id == ' {{ $row->id }}'" value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,20 +66,14 @@
                             <div class="form-group row mb-3">
                                 <label for="title" class="col-sm-4 col-form-label">Judul</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control  @error('title') is-invalid @enderror" name="title" :value="data.title">
+                                    <input type="text" class="form-control" name="title" :value="data.title" required="">
                                 </div>
-                                @error('title')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="author" class="col-sm-4 col-form-label">Penulis</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control  @error('author') is-invalid @enderror" name="author" id="author" :value="data.author">
+                                    <input type="text" class="form-control" name="author" id="author" :value="data.author" required="">
                                 </div>
-                                @error('author')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="body" class="col-sm-4 col-form-label">Isi Artikel</label>
@@ -105,11 +98,13 @@
 @endsection
 @push('js')
     <script type="text/javascript">
-    var actionUrl = '{{url('data/category')}}';
+    var actionUrl = '{{url('post')}}';
     var column = [
-        {data: 'name', class: 'text-center', orderable: true},
-        {data: 'slug', class: 'text-center', orderable: true},
-        {render. function(index, row, data, meta) {
+        {data: 'category_id', class: 'text-center', orderable: true},
+        {data: 'title', class: 'text-center', orderable: true},
+        {data: 'author', class: 'text-center', orderable: true},
+        {data: 'body', class: 'text-center', orderable: true},
+        {render: function(index, row, data, meta) {
             return ` 
                 <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, $(meta.row))">
                     Edit

@@ -1,9 +1,8 @@
 var controller = new Vue({
 	el: '#controller',
 	data: {
-		category: [],
+		datas: [],
 		data: {},
-		anggota: {},
 		actionUrl: actionUrl,
 		editStatus: false,
 	},
@@ -25,7 +24,7 @@ var controller = new Vue({
 				},
 				columns: columns
 			}).on('xhr', function () {
-				_this.category = _this.table.ajax.json().data;
+				_this.datas = _this.table.ajax.json().data;
 			});
 		},
 		addData() {
@@ -35,23 +34,10 @@ var controller = new Vue({
 		},
 		editData(event, index) {
 			this.editStatus = true;
-			this.data = this.category[index];
+			this.data = this.datas[index];
 
 			$('#modal-default').modal();
 		},
-		// editDataPeminjaman(event, index) {
-		// 	this.editStatus = true;
-		// 	this.data = this.category[index];
-
-		// 	$('#modal-default').modal();
-		// },
-		// detailData(event, index) {
-		// 	this.editStatus = true;
-		// 	this.data = this.category[index];
-		// 	this.anggota = this.data.anggota;
-
-		// 	$('#modal-detail').modal();
-		// },
 		deleteData(event, id) {
 			if (confirm("Are you sure ?")) {
 				$(event.target).parents('tr').remove();
@@ -60,10 +46,6 @@ var controller = new Vue({
 				});
 			}
 		},
-	  	// formatPrice(value) {
-		// 	let val = (value/1).toFixed(0).replace('.', ',')
-		// 	return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		// },
 		submitForm(event, id) {
 			event.preventDefault();
 			const _this = this;

@@ -16,8 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-        $datatables = datatables()->of($category)->addIndexColumn();
+        $datas = Category::all();
+        $datatables = datatables()->of($datas)->addIndexColumn();
         return $datatables->make(true);
     }
 
@@ -49,23 +49,6 @@ class CategoryController extends Controller
         ]);
         Category::create($request->all());
         return back();
-        // if($validator->fails()) {
-        //     return response()->json($validator->errors(), 
-        //     Response::HTTP_UNPROCESSABLE_ENTITY);
-        // }
-        // try {
-        //     $categories = Category::create($request->all());
-        //     $response = [
-        //         'message' => 'Category created',
-        //         'data' => $categories
-        //     ];
-        //     return response()->json($response, Response::HTTP_CREATED);
-        // } catch (QueryException $e) {
-        //     return response()->json([
-        //         'message' => "Failed " . $e->errorInfo
-        //     ]);
-        // }
-
     }
 
     /**
@@ -111,22 +94,6 @@ class CategoryController extends Controller
         ]);
         $category->update($request->all());
         return back();
-        // if($validator->fails()) {
-        //     return response()->json($validator->errors(), 
-        //     Response::HTTP_UNPROCESSABLE_ENTITY);
-        // }
-        // try {
-        //     $categories->update($request->all());
-        //     $response = [
-        //         'message' => 'Category updated',
-        //         'data' => $categories
-        //     ];
-        //     return response()->json($response, Response::HTTP_OK);
-        // } catch (QueryException $e) {
-        //     return response()->json([
-        //         'message' => "Failed " . $e->errorInfo
-        //     ]);
-        // }
     }
 
     /**

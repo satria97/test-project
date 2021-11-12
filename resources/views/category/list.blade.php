@@ -26,7 +26,6 @@
                         <table id="datatable" class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="30px">No</th>
                                     <th>Nama Kategori</th>
                                     <th>Slug</th>
                                     <th class="text-right">Pilihan</th>
@@ -37,10 +36,10 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="form" tab-index="-1">
+        <div class="modal fade" id="modal-default" tab-index="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form :action="actionUrl" method="cate" autocomplete="off"  @submit="submitForm($event, data.id)">
+                    <form method="post" :action="actionUrl" autocomplete="off" @submit="submitForm($event, data.id)">
                         <div class="modal-header">
                             <h4 class="modal-title" v-if="!editStatus">Tambah Kategori</h4>
                             <h4 class="modal-title" v-if="editStatus">Edit Kategori</h4>
@@ -54,16 +53,13 @@
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-sm-4 col-form-label">Nama Kategori</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" :value="data.name">
+                                    <input type="text" class="form-control"  name="name" :value="data.name">
                                 </div>
-                                @error('name')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="form-group row mb-3">
                                 <label for="slug" class="col-sm-4 col-form-label">Slug</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control  @error('slug') is-invalid @enderror" name="slug" id="slug" :value="data.slug">
+                                    <input type="text" class="form-control" name="slug" id="slug" :value="data.slug">
                                 </div>
                                 @error('slug')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -82,12 +78,13 @@
 </component>
 @endsection
 @push('js')
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-    var actionUrl = '{{url('data/category')}}';
-    var column = [
+    var actionUrl = '{{url('category')}}';
+    var columns = [
         {data: 'name', class: 'text-center', orderable: true},
         {data: 'slug', class: 'text-center', orderable: true},
-        {render. function(index, row, data, meta) {
+        {render: function(index, row, data, meta) {
             return ` 
                 <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, $(meta.row))">
                     Edit
@@ -99,5 +96,5 @@
         orderable: false, width: '100px', class: 'text-center'},
     ];
     </script>
-    <script src="{{asset('js/data.js')}}"><script>
+    <script src="{{ asset('js/data.js') }}"></script>
 @endpush

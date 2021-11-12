@@ -17,14 +17,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        $data['posts'] = Post::orderBy('id', 'DESC')->get();
-        $data['categories'] = Category::all();
-        // $response = [
-        //     'message' => 'Data Artikel',
-        //     'data' => $posts
-        // ];
-        return view('post.list_post', $data);
-        // return response()->json($response, Response::HTTP_OK);
+        $datas = Post::all();
+        $datatables = datatables()->of($datas)->addIndexColumn();
+        return $datatables->make(true);
+    }
+
+    public function tampil()
+    {
+        return view('post/list');
     }
 
     /**
@@ -34,8 +34,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('post/add_post', compact('categories'));
+        //
     }
 
     /**
@@ -53,22 +52,8 @@ class PostController extends Controller
             'body' => 'required',
             'published_at' => 'required'
         ]);
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 
-            Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        try {
-            $posts = Post::create($request->all());
-            $response = [
-                'message' => 'Article created',
-                'data' => $posts
-            ];
-            return response()->json($response, Response::HTTP_CREATED);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => "Failed " . $e->errorInfo
-            ]);
-        }
+        Post::create($request->all());
+        return back();
     }
 
     /**
@@ -105,33 +90,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post, $id)
     {
-        $posts = Post::findOrFail($id);
-
+        $post = Post::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'category_id' => 'required',
             'title' => 'required',
             'author' => 'required',
-            'body' => 'required',
-            'published_at' => 'required'
+            'body' => 'required'
         ]);
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 
-            Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        try {
-            $posts->update($request->all());
-            $response = [
-                'message' => 'Article updated',
-                'data' => $posts
-            ];
-            return response()->json($response, Response::HTTP_OK);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => "Failed " . $e->errorInfo
-            ]);
-        }
+        $post->update($request->all());
+        return back();
     }
 
     /**
@@ -140,13 +109,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post, $id)
     {
-        $posts = Post::where('id', $id)->delete();
-        $response = [
-            'message' => 'Data Artikel',
-            'data' => $posts
-        ];
-        return response()->json($response, Response::HTTP_OK);
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return back();
     }
 }
