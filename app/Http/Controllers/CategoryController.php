@@ -38,7 +38,27 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'slug' => 'required',
+        ]);
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 
+            Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        try {
+            $categories = Category::create($request->all());
+            $response = [
+                'message' => 'Category created',
+                'data' => $categories
+            ];
+            return response()->json($response, Response::HTTP_CREATED);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => "Failed " . $e->errorInfo
+            ]);
+        }
+
     }
 
     /**
@@ -49,7 +69,12 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $categories = Category::findOrFail($id);
+        $response = [
+            'message' => "Detail Category",
+            'data' => $categories
+        ];
+        return response()->json($response, Response::HTTP_OK);
     }
 
     /**

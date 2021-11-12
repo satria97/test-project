@@ -72,6 +72,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" name="_method" value="PUT" v-if="editStatus">
                             @csrf
                             <div class="form-group row mb-3">
                                 <label for="" class="col-sm-4 col-form-label">Kategori</label>
@@ -113,7 +114,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn bnt-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
@@ -129,7 +130,7 @@
         el : '#controller',
         data: {
             editStatus: false,
-            data: {}
+            data: {},
             actionUrl: ''
         },
         mounted: function() {

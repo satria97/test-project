@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('author');
             $table->text('body');
-            $table->string('published_at')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });

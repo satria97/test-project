@@ -60,7 +60,7 @@ class PostController extends Controller
         try {
             $posts = Post::create($request->all());
             $response = [
-                'message' => 'Post created',
+                'message' => 'Article created',
                 'data' => $posts
             ];
             return response()->json($response, Response::HTTP_CREATED);
@@ -81,7 +81,7 @@ class PostController extends Controller
     {
         $posts = Post::findOrFail($id);
         $response = [
-            'message' => "Detail Post",
+            'message' => "Detail Article",
             'data' => $posts
         ];
         return response()->json($response, Response::HTTP_OK);
