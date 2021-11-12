@@ -24,7 +24,8 @@ class PostController extends Controller
 
     public function tampil()
     {
-        return view('post/list_post');
+        $categories = Category::get();
+        return view('post/list_post', compact('categories'));
     }
 
     /**

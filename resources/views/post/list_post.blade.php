@@ -29,7 +29,7 @@
                                     <th>Kategori</th>
                                     <th>Judul</th>
                                     <th>Penulis</th>
-                                    <th>Tgl Publikasi</th>
+                                    <th>Isi Artikel</th>
                                     <th class="text-right">Pilihan</th>
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@
                             <div class="form-group row mb-3">
                                 <label for="body" class="col-sm-4 col-form-label">Isi Artikel</label>
                                 <div class="col-sm-8">
-                                    <textarea name="body" class="form-control" id="" cols="10" rows="10"></textarea>
+                                    <textarea name="body" class="form-control" id="" cols="10" rows="10">@{{ data.body }}</textarea>
                                 </div>
                                 @error('body')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
@@ -99,7 +99,7 @@
 @push('js')
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-    var actionUrl = '{{url('post')}}';
+    var actionUrl = '{{url('posts')}}';
     var columns = [
         {data: 'category_id', class: 'text-center', orderable: true},
         {data: 'title', class: 'text-center', orderable: true},
@@ -117,5 +117,5 @@
         orderable: false, width: '100px', class: 'text-center'},
     ];
     </script>
-    <script src="{{asset('js/data.js')}}"><script>
+    <script src="{{asset('js/data.js')}}"></script>
 @endpush

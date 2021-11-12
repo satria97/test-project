@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="datatable" class="table table-striped table-hover">
+                        <table id="datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nama Kategori</th>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
@@ -80,7 +80,7 @@
 @push('js')
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-    var actionUrl = '{{url('category')}}';
+    var actionUrl = '{{url('categories')}}';
     var columns = [
         {data: 'name', class: 'text-center', orderable: true},
         {data: 'slug', class: 'text-center', orderable: true},

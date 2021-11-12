@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/categories', [CategoryController::class, 'tampil']);
-Route::resource('post', PostController::class);
-Route::resource('category', CategoryController::class);
+Route::get('/post', [PostController::class, 'tampil']);
+Route::get('/category', [CategoryController::class, 'tampil']);
+Route::resource('posts', PostController::class);
+Route::resource('categories', CategoryController::class);
