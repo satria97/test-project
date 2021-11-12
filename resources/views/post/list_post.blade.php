@@ -97,19 +97,20 @@
 </component>
 @endsection
 @push('js')
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
     var actionUrl = '{{url('post')}}';
-    var column = [
+    var columns = [
         {data: 'category_id', class: 'text-center', orderable: true},
         {data: 'title', class: 'text-center', orderable: true},
         {data: 'author', class: 'text-center', orderable: true},
         {data: 'body', class: 'text-center', orderable: true},
         {render: function(index, row, data, meta) {
             return ` 
-                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, $(meta.row))">
+                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">
                     Edit
                 </a>
-                <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, $(data.id))">
+                <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">
                     Delete
                 </a>`;
         },

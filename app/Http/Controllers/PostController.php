@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function tampil()
     {
-        return view('post/list');
+        return view('post/list_post');
     }
 
     /**
@@ -45,12 +45,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'category_id' => 'required',
             'title' => 'required',
             'author' => 'required',
-            'body' => 'required',
-            'published_at' => 'required'
+            'body' => 'required'
         ]);
         Post::create($request->all());
         return back();
@@ -90,10 +89,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post, $id)
+    public function update(Request $request, Post $post)
     {
-        $post = Post::findOrFail($id);
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'category_id' => 'required',
             'title' => 'required',
             'author' => 'required',
@@ -109,9 +107,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post, $id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
         $post->delete();
         return back();
     }

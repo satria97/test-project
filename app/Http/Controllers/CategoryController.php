@@ -85,9 +85,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category, $id)
+    public function update(Request $request, Category $category)
     {
-        $category = Category::findOrFail($id);
         $validatedData = $request->validate([
             'name' => 'required',
             'slug' => 'required'
@@ -102,9 +101,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category, $id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
         $category->delete();
         return back();
     }
