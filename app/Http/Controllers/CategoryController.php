@@ -21,6 +21,10 @@ class CategoryController extends Controller
         return $datatables->make(true);
     }
 
+    public function tampil()
+    {
+        return view('category/list');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +43,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'name' => 'required',
             'slug' => 'required',

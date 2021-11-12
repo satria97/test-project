@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="Table_id" class="table table-striped table-hover">
+                        <table id="datatable" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th width="30px">No</th>
@@ -32,25 +32,6 @@
                                     <th class="text-right">Pilihan</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @php
-                                    if(empty($_GET['page']))
-                                    $i = 1;
-                                    else
-                                    $i = ($_GET['page'] * $categories->count()) - ($categories->count() - 1);
-                                @endphp
-                                @foreach ($categories as $cate)
-                                    <tr>
-                                        <td>{{ $i++ }}</td>
-                                        <td>{{ $cate->name }}</td>
-                                        <td>{{ $cate->slug }}</td>
-                                        <td class="text-right">
-                                            <a href="#" @click="editData({{ $cate}})" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -59,7 +40,7 @@
         <div class="modal fade" id="form" tab-index="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form :action="actionUrl" method="cate" autocomplete="off">
+                    <form :action="actionUrl" method="cate" autocomplete="off"  @submit="submitForm($event, data.id)">
                         <div class="modal-header">
                             <h4 class="modal-title" v-if="!editStatus">Tambah Kategori</h4>
                             <h4 class="modal-title" v-if="editStatus">Edit Kategori</h4>
@@ -102,30 +83,21 @@
 @endsection
 @push('js')
     <script type="text/javascript">
-    var controller = new Vue({
-        el : '#controller',
-        data: {
-            editStatus: false,
-            data: {},
-            actionUrl: ''
+    var actionUrl = '{{url('data/category')}}';
+    var column = [
+        {data: 'name', class: 'text-center', orderable: true},
+        {data: 'slug', class: 'text-center', orderable: true},
+        {render. function(index, row, data, meta) {
+            return ` 
+                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, $(meta.row))">
+                    Edit
+                </a>
+                <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, $(data.id))">
+                    Delete
+                </a>`;
         },
-        mounted: function() {
-
-        },
-        methods: {
-            addData() {
-                this.editStatus = false;
-                this.actionUrl = '{{ url('data/cate') }}';
-                this.data = {};
-                $('#form').modal();
-            },
-            editData(cate) {
-                this.editStatus = true;
-                this.actionUrl = '{{ url('data/cate') }}'+'/'+cate.id;
-                this.data = cate;
-                $('#form').modal();
-            }
-        }
-    });
+        orderable: false, width: '100px', class: 'text-center'},
+    ];
     </script>
+    <script src="{{asset('js/data.js')}}"><script>
 @endpush

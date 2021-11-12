@@ -39,19 +39,19 @@ var controller = new Vue({
 
 			$('#modal-default').modal();
 		},
-		editDataPeminjaman(event, index) {
-			this.editStatus = true;
-			this.data = this.category[index];
+		// editDataPeminjaman(event, index) {
+		// 	this.editStatus = true;
+		// 	this.data = this.category[index];
 
-			$('#modal-default').modal();
-		},
-		detailData(event, index) {
-			this.editStatus = true;
-			this.data = this.category[index];
-			this.anggota = this.data.anggota;
+		// 	$('#modal-default').modal();
+		// },
+		// detailData(event, index) {
+		// 	this.editStatus = true;
+		// 	this.data = this.category[index];
+		// 	this.anggota = this.data.anggota;
 
-			$('#modal-detail').modal();
-		},
+		// 	$('#modal-detail').modal();
+		// },
 		deleteData(event, id) {
 			if (confirm("Are you sure ?")) {
 				$(event.target).parents('tr').remove();
@@ -60,10 +60,10 @@ var controller = new Vue({
 				});
 			}
 		},
-	  	formatPrice(value) {
-			let val = (value/1).toFixed(0).replace('.', ',')
-			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-		},
+	  	// formatPrice(value) {
+		// 	let val = (value/1).toFixed(0).replace('.', ',')
+		// 	return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+		// },
 		submitForm(event, id) {
 			event.preventDefault();
 			const _this = this;
