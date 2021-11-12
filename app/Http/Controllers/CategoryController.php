@@ -16,8 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('category.list', compact('categories'));
+        $category = Category::all();
+        $datatables = datatables()->of($category)->addIndexColumn();
+        return $datatables->make(true);
     }
 
     /**
@@ -38,26 +39,29 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+
+        $validatedData = $request->validate([
             'name' => 'required',
             'slug' => 'required',
         ]);
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 
-            Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        try {
-            $categories = Category::create($request->all());
-            $response = [
-                'message' => 'Category created',
-                'data' => $categories
-            ];
-            return response()->json($response, Response::HTTP_CREATED);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => "Failed " . $e->errorInfo
-            ]);
-        }
+        Category::create($request->all());
+        return back();
+        // if($validator->fails()) {
+        //     return response()->json($validator->errors(), 
+        //     Response::HTTP_UNPROCESSABLE_ENTITY);
+        // }
+        // try {
+        //     $categories = Category::create($request->all());
+        //     $response = [
+        //         'message' => 'Category created',
+        //         'data' => $categories
+        //     ];
+        //     return response()->json($response, Response::HTTP_CREATED);
+        // } catch (QueryException $e) {
+        //     return response()->json([
+        //         'message' => "Failed " . $e->errorInfo
+        //     ]);
+        // }
 
     }
 
@@ -95,30 +99,31 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category, $id)
     {
-        $categories = Category::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
+        $category = Category::findOrFail($id);
+        $validatedData = $request->validate([
             'name' => 'required',
             'slug' => 'required'
         ]);
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 
-            Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        try {
-            $categories->update($request->all());
-            $response = [
-                'message' => 'Category updated',
-                'data' => $categories
-            ];
-            return response()->json($response, Response::HTTP_OK);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => "Failed " . $e->errorInfo
-            ]);
-        }
+        $category->update($request->all());
+        return back();
+        // if($validator->fails()) {
+        //     return response()->json($validator->errors(), 
+        //     Response::HTTP_UNPROCESSABLE_ENTITY);
+        // }
+        // try {
+        //     $categories->update($request->all());
+        //     $response = [
+        //         'message' => 'Category updated',
+        //         'data' => $categories
+        //     ];
+        //     return response()->json($response, Response::HTTP_OK);
+        // } catch (QueryException $e) {
+        //     return response()->json([
+        //         'message' => "Failed " . $e->errorInfo
+        //     ]);
+        // }
     }
 
     /**
@@ -127,8 +132,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return back();
     }
 }

@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-hover">
+                        <table id="datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th width="30px">No</th>
@@ -34,36 +34,15 @@
                                     <th class="text-right">Pilihan</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @php
-                                    if(empty($_GET['page']))
-                                    $i = 1;
-                                    else
-                                    $i = ($_GET['page'] * $posts->count()) - ($posts->count() - 1);
-                                @endphp
-                                @foreach ($posts as $post)
-                                    <tr>
-                                        <td>{{ $i++ }}</td>
-                                        <td>{{ $post->name }}</td>
-                                        <td>{{ $post->title }}</td>
-                                        <td>{{ $post->author }}</td>
-                                        <td>{{ date('l, j F Y', strtotime($post->published_at)) }}</td>
-                                        <td class="text-right">
-                                            <a href="#" @click="editData({{ $post}})" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="form" tab-index="-1">
+        <div class="modal fade" id="modal-default" tab-index="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form :action="actionUrl" method="post" autocomplete="off">
+                    <form :action="actionUrl" method="post" autocomplete="off" @submit="submitForm($event, data.id)">
                         <div class="modal-header">
                             <h4 class="modal-title" v-if="!editStatus">Tambah Artikel</h4>
                             <h4 class="modal-title" v-if="editStatus">Edit Artikel</h4>
@@ -126,30 +105,21 @@
 @endsection
 @push('js')
     <script type="text/javascript">
-    var controller = new Vue({
-        el : '#controller',
-        data: {
-            editStatus: false,
-            data: {},
-            actionUrl: ''
+    var actionUrl = '{{url('data/category')}}';
+    var column = [
+        {data: 'name', class: 'text-center', orderable: true},
+        {data: 'slug', class: 'text-center', orderable: true},
+        {render. function(index, row, data, meta) {
+            return ` 
+                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, $(meta.row))">
+                    Edit
+                </a>
+                <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, $(data.id))">
+                    Delete
+                </a>`;
         },
-        mounted: function() {
-
-        },
-        methods: {
-            addData() {
-                this.editStatus = false;
-                this.actionUrl = '{{ url('data/post') }}';
-                this.data = {};
-                $('#form').modal();
-            },
-            editData(post) {
-                this.editStatus = true;
-                this.actionUrl = '{{ url('data/post') }}'+'/'+post.id;
-                this.data = post;
-                $('#form').modal();
-            }
-        }
-    });
+        orderable: false, width: '100px', class: 'text-center'},
+    ];
     </script>
+    <script src="{{asset('js/data.js')}}"><script>
 @endpush

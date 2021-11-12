@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-hover">
+                        <table id="Table_id" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th width="30px">No</th>

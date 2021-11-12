@@ -17,7 +17,4 @@ use App\Http\Controllers\CategoryController;
 
 
 Route::resource('post', PostController::class);
-Route::prefix('category')->group(function () {
-    Route::get('/', [CategoryController::class, 'index']);
-    Route::get('/insert', [CategoryController::class, 'create']);
-});
+Route::resource('category', CategoryController::class);
