@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\PostController;
 
 
 Route::resource('post', PostController::class);
-// Route::prefix('post')->group(function () {
-//     Route::get('/', [PostController::class, 'index']);
-//     Route::get('/insert', [PostController::class, 'create']);
-// });
+Route::prefix('category')->group(function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/insert', [CategoryController::class, 'create']);
+});
