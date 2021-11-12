@@ -123,7 +123,7 @@ class PostController extends Controller
         try {
             $posts->update($request->all());
             $response = [
-                'message' => 'Post updated',
+                'message' => 'Article updated',
                 'data' => $posts
             ];
             return response()->json($response, Response::HTTP_OK);
@@ -142,6 +142,11 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $posts = Post::where('id', $id)->delete();
+        $response = [
+            'message' => 'Data Artikel',
+            'data' => $posts
+        ];
+        return response()->json($response, Response::HTTP_OK);
     }
 }

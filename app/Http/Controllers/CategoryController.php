@@ -97,7 +97,28 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categories = Category::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'slug' => 'required'
+        ]);
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 
+            Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        try {
+            $categories->update($request->all());
+            $response = [
+                'message' => 'Category updated',
+                'data' => $categories
+            ];
+            return response()->json($response, Response::HTTP_OK);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => "Failed " . $e->errorInfo
+            ]);
+        }
     }
 
     /**
